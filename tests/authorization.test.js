@@ -1,6 +1,8 @@
 process.env.NODE_ENV = 'test';
 
 const request = require('supertest');
+const path = require('path');
+const ejs = require('ejs');
 const app = require('../src/app');
 const { requireAdministrator, requireCandidate } = require('../src/middleware/roles');
 
@@ -9,6 +11,18 @@ function responseDouble() {
 }
 
 describe('authorization', () => {
+  test('renders a friendly 403 page without requiring an optional message', async () => {
+    const viewPath = path.join(__dirname, '../src/views/errors/403.ejs');
+    const html = await ejs.renderFile(viewPath, {
+      title: 'Access denied',
+      currentUser: null,
+      flash: null,
+      currentPath: '/',
+      csrfToken: 'test-token'
+    });
+    expect(html).toContain('Your account does not have permission to view this page.');
+  });
+
   test('redirects anonymous users from protected pages', async () => {
     const response = await request(app).get('/dashboard');
     expect(response.status).toBe(302);
