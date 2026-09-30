@@ -7,9 +7,11 @@ This application uses PostgreSQL for election records and production sessions. D
 1. In Render, create or select the PostgreSQL database attached by `render.yaml`.
 2. Open the database's **Connect** panel and copy the **Internal Database URL** only into the web service's secret environment settings. Do not paste it into source, YAML, Git, issue comments, or chat.
 3. Set `DATABASE_URL` to that URL. Set `DIRECT_URL` to the direct database URL as well; if you use a transaction-pooler URL for application queries, use the direct connection URL for `DIRECT_URL` so Prisma migrations do not run through the pooler.
-4. Set `NODE_ENV=production`. Generate `SESSION_SECRET` using Render's **Generate** control or the Render secret store. The blueprint already generates the session secret and maps the PostgreSQL URL variables.
+4. Set `NODE_ENV=production`. Generate `SESSION_SECRET` using Render's **Generate** control or the Render secret store; it must contain at least 64 random characters. The blueprint already generates the session secret and maps the PostgreSQL URL variables.
 5. Deploy. The configured build command runs `npm ci`, `npm run prisma:generate`, and `npm run prisma:deploy`. It applies committed migrations and does not seed demo records.
 6. Confirm `/health` is healthy before opening database-backed pages.
+
+For local development against Render PostgreSQL, use its **External Database URL** from the database's **Connect** panel as `DATABASE_URL` in the ignored local `.env`; use the direct connection URL for `DIRECT_URL`. This requires the database to allow external connections and may incur network charges. Prefer a local PostgreSQL instance for routine development. Never put either URL in source control or chat.
 
 Do not put database URLs or seed passwords in `render.yaml`; it should contain only Render references and generated secrets. Before a schema migration, create and verify a database backup. Render backup and retention options depend on the database plan; check the database's **Backups** page and plan limits.
 
@@ -31,7 +33,7 @@ Do not put database URLs or seed passwords in `render.yaml`; it should contain o
    \q
    ```
 
-4. Copy `.env.example` to `.env` locally. Replace its placeholders with private values for `DATABASE_URL`, `DIRECT_URL`, `SESSION_SECRET`, and `SEED_ADMIN_PASSWORD`. Set both database URLs in that ignored file using this shape for the URLs, replacing the angle-bracket placeholders privately:
+4. Copy `.env.example` to `.env` locally. Replace its placeholders with private values for `DATABASE_URL`, `DIRECT_URL`, a random `SESSION_SECRET` of at least 64 characters, and `SEED_ADMIN_PASSWORD`. Set both database URLs in that ignored file using this shape for the URLs, replacing the angle-bracket placeholders privately:
 
    ```text
    postgresql://<role>:<percent-encoded-password>@localhost:5432/election_system?schema=public

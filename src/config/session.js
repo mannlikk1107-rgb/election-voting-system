@@ -8,6 +8,9 @@ function createSessionMiddleware() {
   if (production && !process.env.SESSION_SECRET) {
     throw new Error('SESSION_SECRET is required in production.');
   }
+  if (production && process.env.SESSION_SECRET.length < 64) {
+    throw new Error('SESSION_SECRET must be at least 64 characters in production.');
+  }
   const settings = {
     name: 'election.sid',
     secret: process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex'),
