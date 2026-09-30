@@ -10,8 +10,8 @@ A locally runnable university election prototype built with Node.js, Express, Po
 
 ## Local setup
 
-1. Create a PostgreSQL database named `election_system` and a local database role with access to it.
-2. Copy `.env.example` to `.env` and replace the placeholders for `DATABASE_URL`, `DIRECT_URL`, `SESSION_SECRET`, and `SEED_ADMIN_PASSWORD` with private local values.
+1. Create a PostgreSQL database named `election_system` and a local database role with access to it, or create a Neon project.
+2. Create an ignored `.env` file in the workspace root. Set `DATABASE_URL`, `DIRECT_URL`, `SESSION_SECRET` (at least 64 random characters), and `SEED_ADMIN_PASSWORD` privately. For Neon, use the pooled URL for `DATABASE_URL` and direct URL for `DIRECT_URL`. Never commit `.env`.
 3. Install dependencies and generate Prisma Client:
 
    ```sh
@@ -59,8 +59,8 @@ The seed creates demonstration administrator, candidate, and voter accounts. Set
 - `prisma/`: PostgreSQL schema, migrations, and seed script
 - `tests/`: unit and HTTP tests
 - `docs/`: requirements, data model, test, user, deployment, and security notes
-- `render.yaml`: Render web service and PostgreSQL blueprint
+- `render.yaml`: Render Web Service blueprint with Neon URLs supplied as protected environment values
 
 ## Deployment
 
-Follow [docs/POSTGRESQL_SETUP.md](docs/POSTGRESQL_SETUP.md) for local database setup and [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for Render. This is a teaching prototype, not a certified election platform; review [docs/SECURITY.md](docs/SECURITY.md) before handling real elections or personal data.
+The production architecture is Browser -> Render Web Service -> Neon PostgreSQL. Follow [docs/POSTGRESQL_SETUP.md](docs/POSTGRESQL_SETUP.md) for local/Neon database setup and [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for Render. This is a teaching prototype, not a certified election platform; review [docs/SECURITY.md](docs/SECURITY.md) before handling real elections or personal data.

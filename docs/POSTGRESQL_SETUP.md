@@ -2,18 +2,17 @@
 
 This application uses PostgreSQL for election records and production sessions. Do not substitute SQLite or test against a production database during development.
 
-## Render PostgreSQL
+## Neon PostgreSQL with Render
 
-1. In Render, create or select the PostgreSQL database attached by `render.yaml`.
-2. Open the database's **Connect** panel and copy the **Internal Database URL** only into the web service's secret environment settings. Do not paste it into source, YAML, Git, issue comments, or chat.
-3. Set `DATABASE_URL` to that URL. Set `DIRECT_URL` to the direct database URL as well; if you use a transaction-pooler URL for application queries, use the direct connection URL for `DIRECT_URL` so Prisma migrations do not run through the pooler.
-4. Set `NODE_ENV=production`. Generate `SESSION_SECRET` using Render's **Generate** control or the Render secret store; it must contain at least 64 random characters. The blueprint already generates the session secret and maps the PostgreSQL URL variables.
-5. Deploy. The configured build command runs `npm ci`, `npm run prisma:generate`, and `npm run prisma:deploy`. It applies committed migrations and does not seed demo records.
-6. Confirm `/health` is healthy before opening database-backed pages.
+1. Create a Neon project and database. In Neon's **Connect** panel, select the pooled connection string for the running application and the direct connection string for Prisma migrations.
+2. In the Render Web Service environment settings, set `DATABASE_URL` to the Neon pooled URL and `DIRECT_URL` to the Neon direct URL. Use the URLs as provided by Neon, including their TLS parameters. `prisma/schema.prisma` maps `DATABASE_URL` to runtime queries and `DIRECT_URL` to migrations.
+3. Set `NODE_ENV=production`. Render's Blueprint generates `SESSION_SECRET`; confirm it is at least 64 random characters.
+4. Deploy. The build command runs `npm ci`, `npm run prisma:generate`, and `npm run prisma:deploy`; it applies committed migrations and does not seed demo records.
+5. Confirm `/health` is healthy before opening database-backed pages.
 
-For local development against Render PostgreSQL, use its **External Database URL** from the database's **Connect** panel as `DATABASE_URL` in the ignored local `.env`; use the direct connection URL for `DIRECT_URL`. This requires the database to allow external connections and may incur network charges. Prefer a local PostgreSQL instance for routine development. Never put either URL in source control or chat.
+For local development against Neon, use the Neon pooled URL for `DATABASE_URL` and the direct URL for `DIRECT_URL` in the ignored local `.env`. Prefer a local PostgreSQL instance for routine development. Never put either URL in source control, documentation, terminal output, or chat.
 
-Do not put database URLs or seed passwords in `render.yaml`; it should contain only Render references and generated secrets. Before a schema migration, create and verify a database backup. Render backup and retention options depend on the database plan; check the database's **Backups** page and plan limits.
+Do not put database URLs or seed passwords in `render.yaml`; `DATABASE_URL` and `DIRECT_URL` are `sync: false` inputs configured privately in the Render dashboard. Before a schema migration, create and verify a Neon backup using the options available for the selected plan.
 
 ## Local Windows PostgreSQL
 
@@ -33,7 +32,7 @@ Do not put database URLs or seed passwords in `render.yaml`; it should contain o
    \q
    ```
 
-4. Copy `.env.example` to `.env` locally. Replace its placeholders with private values for `DATABASE_URL`, `DIRECT_URL`, a random `SESSION_SECRET` of at least 64 characters, and `SEED_ADMIN_PASSWORD`. Set both database URLs in that ignored file using this shape for the URLs, replacing the angle-bracket placeholders privately:
+4. Create an ignored `.env` file in the workspace root and set private values for `DATABASE_URL`, `DIRECT_URL`, a random `SESSION_SECRET` of at least 64 characters, and `SEED_ADMIN_PASSWORD`. For local PostgreSQL, use this URL shape:
 
    ```text
    postgresql://<role>:<percent-encoded-password>@localhost:5432/election_system?schema=public
@@ -76,7 +75,7 @@ createdb -h localhost -U postgres election_system_restore
 pg_restore --host localhost --username election_app --dbname election_system_restore --no-owner C:\SecureBackups\election_system.dump
 ```
 
-Do not commit backup files. For Render, use the database dashboard's supported backup/export options and store exports outside the repository with equivalent protection.
+Do not commit backup files. For Neon, use the project's supported backup/restore options and store exports outside the repository with equivalent protection.
 
 ## Troubleshooting
 
@@ -84,5 +83,5 @@ Do not commit backup files. For Render, use the database dashboard's supported b
 - **Connection refused:** confirm the PostgreSQL Windows service is running, the host/port are correct, and local port 5432 is reachable.
 - **Authentication failed:** reset the dedicated local role password interactively and update the private `.env`; percent-encode reserved URL characters.
 - **Prisma migration cannot connect:** run `npm run prisma:validate` first; confirm `DIRECT_URL` points to a direct PostgreSQL connection, then retry `npm run prisma:deploy`. Do not reset or drop the database to work around migration errors.
-- **Render deploy fails on migration:** inspect the migration error without exposing connection strings; confirm the Render service is attached to the expected database and that its role can create schema objects. Back up before repairing or retrying a failed migration.
+- **Render deploy fails on migration:** inspect the migration error without exposing connection strings; confirm `DIRECT_URL` is the Neon direct endpoint and the database role can create schema objects. Back up before repairing or retrying a failed migration.
 - **Missing schema after deploy:** verify the committed migration directory and Render build output; `prisma migrate deploy` applies committed migrations but does not create new migration files or insert seed data.

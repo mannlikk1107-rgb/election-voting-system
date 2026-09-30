@@ -14,15 +14,6 @@ services:
       - key: SESSION_SECRET
         generateValue: true
       - key: DATABASE_URL
-        fromDatabase:
-          name: election-system-db
-          property: connectionString
+        sync: false
       - key: DIRECT_URL
-        fromDatabase:
-          name: election-system-db
-          property: connectionString
-
-databases:
-  - name: election-system-db
-    databaseName: election_system
-    plan: free
+        sync: false
