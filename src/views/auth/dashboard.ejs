@@ -1,0 +1,5 @@
+<%- include('../partials/header', { title }) %>
+<div class="section-heading"><div><p class="eyebrow">YOUR CAMPUS · 校園動態</p><h1>Your dashboard</h1></div><a class="btn btn-outline-primary" href="/elections">Browse elections</a></div>
+<% if (!elections.length) { %><div class="empty-state"><h2>No active elections yet</h2><p>When an election opens, it will appear here.</p></div><% } %>
+<div class="row g-3"><% elections.forEach((election) => { %><div class="col-md-6"><article class="election-card"><div class="d-flex justify-content-between gap-2"><span class="status-label"><%= election.status %></span><small><%= election.eligibilities[0]?.status || 'NOT APPLIED' %> · VOTER</small></div><h2><a href="/elections/<%= election.id %>"><%= election.title %></a></h2><p><%= election.description %></p><a class="text-link" href="/elections/<%= election.id %>">Open election →</a></article></div><% }) %></div>
+<%- include('../partials/footer') %>

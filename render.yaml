@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: election-voting-system
+    env: node
+    plan: free
+    buildCommand: npm ci && npm run prisma:generate && npm run prisma:deploy
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: election-system-db
+          property: connectionString
+      - key: DIRECT_URL
+        fromDatabase:
+          name: election-system-db
+          property: connectionString
+
+databases:
+  - name: election-system-db
+    databaseName: election_system
+    plan: free

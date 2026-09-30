@@ -1,0 +1,16 @@
+node_modules/
+.env
+.env.local
+.env.production
+.env.*.local
+coverage/
+dist/
+*.log
+.DS_Store
+.vscode/
+prisma/dev.db
+*.sqlite
+*.sqlite3
+*.dump
+*.backup
+npm-debug.log*

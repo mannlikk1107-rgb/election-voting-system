@@ -1,0 +1,4 @@
+<%- include('../partials/header', { title }) %>
+<div class="section-heading"><div><p class="eyebrow">CANDIDATE PORTAL · 候選人專區</p><h1>Candidate dashboard</h1></div></div>
+<div class="vstack gap-2"><% nominations.forEach((nomination) => { %><article class="election-card"><div class="d-flex justify-content-between"><h2><a href="/elections/<%= nomination.election.id %>"><%= nomination.election.title %></a></h2><span class="status-label"><%= nomination.status %></span></div><p><%= nomination.candidateDisplayName %></p><% if (nomination.rejectionReason) { %><p class="text-danger">Review note: <%= nomination.rejectionReason %></p><% } %></article><% }) %><% if (!nominations.length) { %><div class="empty-state"><h2>No nominations yet</h2><p>Open an election to submit a nomination before its deadline.</p><a href="/elections">Browse elections</a></div><% } %></div>
+<%- include('../partials/footer') %>

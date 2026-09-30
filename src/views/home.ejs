@@ -1,0 +1,16 @@
+<%- include('partials/header', { title }) %>
+<section class="home-intro">
+  <p class="eyebrow">UNIVERSITY ELECTIONS · 校園選舉</p>
+  <h1>Your voice,<br><span>your campus.</span></h1>
+  <p class="intro-copy">A clear, secure place to take part in student elections. Review candidates, check your eligibility, and cast one confidential vote.</p>
+  <div class="d-flex flex-wrap gap-2 mt-4">
+    <a class="btn btn-warm btn-lg" href="/elections">Explore elections / 查看選舉</a>
+    <% if (!currentUser) { %><a class="btn btn-outline-light btn-lg" href="/register">Create an account</a><% } %>
+  </div>
+  <div class="home-meta"><span>01 / PARTICIPATE</span><span>02 / CHOOSE</span><span>03 / BE COUNTED</span></div>
+</section>
+<section class="home-band row g-0 align-items-stretch">
+  <div class="col-md-5 band-title"><p class="eyebrow">THE PROCESS · 選舉流程</p><h2>Every vote<br>has a place.</h2></div>
+  <div class="col-md-7 band-copy"><p>Browse open elections, submit a candidacy, and request voter approval for the elections you care about. Published results include turnout and candidate totals.</p><a class="text-link" href="/elections">View all elections <span aria-hidden="true">→</span></a></div>
+</section>
+<%- include('partials/footer') %>

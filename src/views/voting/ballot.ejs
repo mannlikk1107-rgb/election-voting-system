@@ -1,0 +1,4 @@
+<%- include('../partials/header', { title }) %>
+<div class="narrow-page"><p class="eyebrow">CONFIDENTIAL BALLOT · 保密選票</p><h1><%= election.title %></h1><p class="lead-copy">Choose one approved candidate. Your choice cannot be changed after submission.</p>
+<form action="/elections/<%= election.id %>/vote/confirm" method="post"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><fieldset><legend class="h2 mb-3">Select one candidate / 請選擇一位候選人</legend><div class="vstack gap-2"><% election.nominations.forEach((candidate) => { %><label class="candidate-choice"><input class="form-check-input" type="radio" name="nominationId" value="<%= candidate.id %>" required><span><strong><%= candidate.candidateDisplayName %></strong><small><%= candidate.biography %></small></span></label><% }) %></div><button class="btn btn-primary mt-4" type="submit">Review selection / 確認選擇</button></fieldset></form></div>
+<%- include('../partials/footer') %>
