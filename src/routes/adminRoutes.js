@@ -1,5 +1,5 @@
 const express = require('express');
-const { body } = require('express-validator');
+const { body, validationResult } = require('express-validator');
 const admin = require('../controllers/adminController');
 const elections = require('../controllers/electionController');
 const { requireAuthentication } = require('../middleware/auth');
@@ -7,6 +7,17 @@ const { requireAdministrator } = require('../middleware/roles');
 const { validateRequest } = require('../middleware/validation');
 
 const router = express.Router();
+
+function validateElectionStatus(req, res, next) {
+  const errors = validationResult(req);
+  if (errors.isEmpty()) return next();
+  req.session.flashMessage = {
+    type: 'danger',
+    text: errors.array().map((error) => error.msg).join(' ')
+  };
+  return res.redirect(`/elections/${encodeURIComponent(req.params.electionId)}`);
+}
+
 router.use(requireAuthentication, requireAdministrator);
 router.get('/', admin.dashboard);
 router.get('/eligibilities', admin.eligibilities);
@@ -32,6 +43,8 @@ router.put('/elections/:electionId', [
   body('description').trim().isLength({ min: 10, max: 5000 }).withMessage('Add an election description.'),
   body(['nominationStart', 'nominationEnd', 'votingStart', 'votingEnd']).notEmpty().withMessage('Complete each election date.')
 ], elections.update);
-router.post('/elections/:electionId/status', body('status').isIn(['NOMINATION', 'VOTING', 'CLOSED', 'PUBLISHED', 'ARCHIVED']), elections.changeStatus);
+router.post('/elections/:electionId/status', body('status')
+  .isIn(['NOMINATION', 'VOTING', 'CLOSED', 'PUBLISHED', 'ARCHIVED'])
+  .withMessage('Choose a valid next election status.'), validateElectionStatus, elections.changeStatus);
 
 module.exports = router;

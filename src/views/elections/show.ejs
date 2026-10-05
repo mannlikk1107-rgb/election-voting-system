@@ -1,4 +1,5 @@
 <%- include('../partials/header', { title }) %>
+<% const statusTransitions = { DRAFT: ['NOMINATION'], NOMINATION: ['VOTING'], VOTING: ['CLOSED'], CLOSED: ['PUBLISHED'], PUBLISHED: ['ARCHIVED'], ARCHIVED: [] }; const nextStatuses = statusTransitions[election.status] || []; %>
 <div class="section-heading"><div><p class="eyebrow">ELECTION DETAILS · 選舉詳情</p><h1><%= election.title %></h1></div><span class="status-label"><%= election.status %></span></div>
 <p class="lead-copy"><%= election.description %></p>
 <div class="row g-4 election-details"><div class="col-lg-7"><section class="content-section"><h2>Timeline / 時間表</h2><dl class="timeline-list"><div><dt>Nominations open</dt><dd><%= election.nominationStart.toLocaleString() %></dd></div><div><dt>Nominations close</dt><dd><%= election.nominationEnd.toLocaleString() %></dd></div><div><dt>Voting opens</dt><dd><%= election.votingStart.toLocaleString() %></dd></div><div><dt>Voting closes</dt><dd><%= election.votingEnd.toLocaleString() %></dd></div></dl></section>
@@ -12,6 +13,13 @@
     <% if (election.status === 'VOTING' && eligibility?.status === 'APPROVED') { %><hr><a class="btn btn-primary w-100" href="/elections/<%= election.id %>/vote">Go to ballot</a><% } %>
   <% } %>
   <% if (election.status === 'PUBLISHED') { %><hr><a class="btn btn-primary w-100" href="/results/<%= election.id %>">View published results</a><% } %>
-  <% if (currentUser && currentUser.role === 'ADMINISTRATOR') { %><hr><% if (election.status === 'DRAFT') { %><a class="btn btn-outline-primary w-100 mb-2" href="/admin/elections/<%= election.id %>/edit">Edit draft</a><% } %><form action="/admin/elections/<%= election.id %>/status" method="post" class="d-flex gap-2"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><select class="form-select" name="status" aria-label="Next election status"><% const next = { DRAFT: ['NOMINATION'], NOMINATION: ['VOTING'], VOTING: ['CLOSED'], CLOSED: ['PUBLISHED'], PUBLISHED: ['ARCHIVED'], ARCHIVED: [] }; (next[election.status] || []).forEach((status) => { %><option value="<%= status %>"><%= status %></option><% }) %></select><button class="btn btn-warm" type="submit">Change status</button></form><% if (['CLOSED', 'PUBLISHED'].includes(election.status)) { %><a class="btn btn-link mt-2" href="/results/<%= election.id %>">Preview results</a><% } %><% } %>
+  <% if (currentUser && currentUser.role === 'ADMINISTRATOR') { %>
+    <hr>
+    <% if (election.status === 'DRAFT') { %><a class="btn btn-outline-primary w-100 mb-2" href="/admin/elections/<%= election.id %>/edit">Edit draft</a><% } %>
+    <% if (nextStatuses.length) { %>
+      <form action="/admin/elections/<%= election.id %>/status" method="post" class="d-flex gap-2"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><select class="form-select" name="status" aria-label="Next election status"><% nextStatuses.forEach((status) => { %><option value="<%= status %>"><%= status %></option><% }) %></select><button class="btn btn-warm" type="submit">Change status</button></form>
+    <% } else { %><p class="text-secondary small mb-0">Final status reached.</p><% } %>
+    <% if (['CLOSED', 'PUBLISHED'].includes(election.status)) { %><a class="btn btn-link mt-2" href="/results/<%= election.id %>">Preview results</a><% } %>
+  <% } %>
 </div></aside></div>
 <%- include('../partials/footer') %>
