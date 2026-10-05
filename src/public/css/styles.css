@@ -54,19 +54,19 @@ a { color: var(--forest-soft); }
 .portal-subtitle { color: rgba(255,255,255,.82); font-size: 1.2rem; line-height: 1.55; margin: 1.35rem 0 0; max-width: 440px; }
 .portal-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
 .portal-note { border-top: 1px solid rgba(255,255,255,.22); color: rgba(255,255,255,.72); font-size: .9rem; margin: auto 0 0; max-width: 440px; padding-top: 1rem; }
-.home-login-card { align-self: center; background: #20232b; border: 1px solid #363c47; border-radius: 8px; color: #f2f4f8; margin: 0; padding: 2.25rem; width: 100%; }
-.home-login-card .eyebrow { color: #99cfc5; }
-.home-login-card h2 { color: #f7f8fa; font-family: var(--sans); font-size: 1.65rem; font-weight: 700; margin: .2rem 0 1.4rem; }
+.home-login-card { align-self: center; background: var(--forest); border: 1px solid rgba(255,255,255,.12); border-radius: 8px; color: #fffefa; margin: 0; padding: 2.25rem; width: 100%; }
+.home-login-card .eyebrow { color: #e3c985; }
+.home-login-card h2 { color: #fffefa; font-family: var(--sans); font-size: 1.65rem; font-weight: 700; margin: .2rem 0 1.4rem; }
 .home-login-form { display: grid; gap: 1rem; margin-top: 1.25rem; }
-.home-login-card .form-label { color: #c5cad3; font-size: .78rem; font-weight: 700; }
-.home-login-card .form-control { background: #171a20; border-color: #414854; color: #f7f8fa; min-height: 48px; }
-.home-login-card .form-control::placeholder { color: #8e96a3; }
-.home-login-card .form-control:focus { background: #171a20; border-color: #6bb9ac; box-shadow: 0 0 0 .2rem rgba(107,185,172,.18); color: #f7f8fa; }
-.login-authenticate { background: #617fc1; border-color: #617fc1; border-radius: 6px; color: #fff; font-weight: 700; min-height: 46px; }
-.login-authenticate:hover, .login-authenticate:focus { background: #7390ce; border-color: #7390ce; color: #fff; }
-.home-register-link { color: #aeb5c0; font-size: .9rem; margin: 1.25rem 0 0; text-align: center; }
-.home-register-link a { color: #9db7f1; font-weight: 700; text-decoration: none; }
-.home-register-link a:hover { color: #c0cff6; text-decoration: underline; }
+.home-login-card .form-label { color: rgba(255,255,255,.84); font-size: .78rem; font-weight: 700; }
+.home-login-card .form-control { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.26); color: #fffefa; min-height: 48px; }
+.home-login-card .form-control::placeholder { color: rgba(255,255,255,.52); }
+.home-login-card .form-control:focus { background: rgba(255,255,255,.12); border-color: var(--warm); box-shadow: 0 0 0 .2rem rgba(240,184,75,.2); color: #fffefa; }
+.login-authenticate { background: var(--warm); border-color: var(--warm); border-radius: 6px; color: var(--ink); font-weight: 700; min-height: 46px; }
+.login-authenticate:hover, .login-authenticate:focus { background: #ffcb63; border-color: #ffcb63; color: var(--ink); }
+.home-register-link { color: rgba(255,255,255,.7); font-size: .9rem; margin: 1.25rem 0 0; text-align: center; }
+.home-register-link a { color: var(--warm); font-weight: 700; text-decoration: none; }
+.home-register-link a:hover { color: #ffcb63; text-decoration: underline; }
 .login-card-copy { color: var(--muted); line-height: 1.6; }
 .eyebrow { color: #858d55; font-size: .7rem; font-weight: 800; letter-spacing: 0; margin-bottom: .6rem; }
 .btn-warm { background: var(--warm); border-color: var(--warm); color: #172a26; font-weight: 700; }
