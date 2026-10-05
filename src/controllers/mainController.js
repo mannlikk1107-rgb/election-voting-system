@@ -13,7 +13,8 @@ async function dashboard(req, res, next) {
       take: 8,
       include: {
         eligibilities: { where: { userId: req.session.user.id }, select: { status: true } },
-        nominations: { where: { userId: req.session.user.id }, select: { status: true } }
+        nominations: { where: { userId: req.session.user.id }, select: { status: true } },
+        votes: { where: { voterId: req.session.user.id }, select: { id: true }, take: 1 }
       }
     });
     return res.render('auth/dashboard', { title: 'Your dashboard', elections });

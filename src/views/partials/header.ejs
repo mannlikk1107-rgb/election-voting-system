@@ -9,8 +9,16 @@
   <link href="/css/styles.css" rel="stylesheet">
 </head>
 <body>
+<% if (currentUser && currentPath !== '/') { %>
+<div class="authenticated-shell">
+  <%- include('authenticated-sidebar') %>
+  <div class="authenticated-main">
+    <%- include('authenticated-header') %>
+    <main class="authenticated-content">
+<% } else { %>
 <%- include('navbar') %>
 <main class="container page-shell">
+<% } %>
   <% if (flash) { %>
     <div class="alert alert-<%= flash.type %> alert-dismissible fade show" role="alert">
       <%= flash.text %>

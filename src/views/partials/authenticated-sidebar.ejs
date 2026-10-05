@@ -1,0 +1,21 @@
+<aside class="authenticated-sidebar" id="authenticatedSidebar" aria-label="Main navigation">
+  <a class="authenticated-brand" href="/dashboard">
+    <span class="brand-mark">CB</span>
+    <span><strong>Campus Ballot</strong><small>University Election System</small></span>
+  </a>
+  <nav class="authenticated-nav">
+    <a class="authenticated-nav-link <%= currentPath === '/dashboard' ? 'is-active' : '' %>" href="/dashboard">Dashboard</a>
+    <a class="authenticated-nav-link <%= currentPath === '/elections' || currentPath.startsWith('/results') ? 'is-active' : '' %>" href="/elections">Results</a>
+    <% if (currentUser.role === 'ADMINISTRATOR') { %>
+      <a class="authenticated-nav-link <%= currentPath.startsWith('/admin') ? 'is-active' : '' %>" href="/admin">Admin</a>
+    <% } %>
+  </nav>
+  <div class="authenticated-sidebar-bottom">
+    <p>Your Voice,<br>Your Campus.</p>
+    <form action="/logout" method="post">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <button class="authenticated-logout" type="submit">Log out</button>
+    </form>
+  </div>
+</aside>
+<button class="authenticated-sidebar-backdrop" type="button" data-sidebar-close aria-label="Close navigation"></button>

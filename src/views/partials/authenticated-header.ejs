@@ -1,0 +1,11 @@
+<header class="authenticated-topbar">
+  <button class="authenticated-menu-toggle" type="button" data-sidebar-toggle aria-controls="authenticatedSidebar" aria-expanded="false" aria-label="Open navigation">Menu</button>
+  <div class="authenticated-page-title">
+    <p>Campus Ballot</p>
+    <h1><%= title || 'Dashboard' %></h1>
+  </div>
+  <div class="authenticated-account">
+    <strong><%= currentUser.fullName %></strong>
+    <span><%= currentUser.role.toLowerCase().replace('_', ' ') %></span>
+  </div>
+</header>
