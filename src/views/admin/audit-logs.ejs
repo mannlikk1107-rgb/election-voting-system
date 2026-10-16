@@ -1,4 +1,4 @@
 <%- include('../partials/header', { title }) %>
-<div class="section-heading"><div><p class="eyebrow">ACCOUNTABILITY · 問責紀錄</p><h1>Audit log</h1></div><span class="status-label">Latest 100 events</span></div>
+<div class="section-heading"><div><p class="eyebrow">ACCOUNTABILITY</p><h1>Audit log</h1></div><span class="status-label">Latest 100 events</span></div>
 <div class="table-responsive"><table class="table"><thead><tr><th>Time</th><th>Actor</th><th>Action</th><th>Record</th></tr></thead><tbody><% logs.forEach((log) => { %><tr><td><%= log.createdAt.toLocaleString() %></td><td><%= log.actor ? log.actor.fullName : 'System' %></td><td><%= log.action %></td><td><%= log.entityType %> <%= log.entityId || '' %></td></tr><% }) %><% if (!logs.length) { %><tr><td colspan="4">No events yet.</td></tr><% } %></tbody></table></div>
 <%- include('../partials/footer') %>

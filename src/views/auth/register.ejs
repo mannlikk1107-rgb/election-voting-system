@@ -1,11 +1,11 @@
 <%- include('../partials/header', { title }) %>
-<section class="form-layout"><div class="form-aside"><p class="eyebrow">JOIN THE BALLOT · 加入選舉</p><h1>Make your<br>voice count.</h1><p>Your account starts as a voter. Apply for approval separately for each election.</p></div>
-  <div class="form-panel"><h2>Create account / 註冊</h2><form action="/register" method="post" class="vstack gap-3"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
-    <div><label class="form-label" for="fullName">Full name / 全名</label><input class="form-control" id="fullName" name="fullName" maxlength="120" autocomplete="name" required></div>
-    <div><label class="form-label" for="email">Email / 電郵</label><input class="form-control" id="email" name="email" type="email" autocomplete="email" required></div>
-    <div><label class="form-label" for="username">Username / 用戶名稱</label><input class="form-control" id="username" name="username" minlength="3" maxlength="32" autocomplete="username" required></div>
-    <div><label class="form-label" for="password">Password / 密碼</label><input class="form-control" id="password" name="password" type="password" minlength="8" autocomplete="new-password" required><div class="form-text">At least 8 characters, with uppercase, lowercase, and a number.</div></div>
-    <div><label class="form-label" for="confirmPassword">Confirm password / 確認密碼</label><input class="form-control" id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" required></div>
-    <button class="btn btn-primary mt-2" type="submit">Create account / 註冊</button>
+<section class="form-layout"><div class="form-aside"><p class="eyebrow">JOIN THE BALLOT</p><h1>Make your<br>voice count.</h1><p>Your account starts as a voter. Apply for approval separately for each election.</p></div>
+  <div class="form-panel"><h2>Create account</h2><form action="/register" method="post" class="vstack gap-3"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <div><label class="form-label" for="fullName">Full name</label><input class="form-control" id="fullName" name="fullName" maxlength="120" autocomplete="name" required></div>
+    <div><label class="form-label" for="email">Email</label><input class="form-control" id="email" name="email" type="email" autocomplete="email" required></div>
+    <div><label class="form-label" for="username">Username</label><input class="form-control" id="username" name="username" minlength="3" maxlength="32" autocomplete="username" required></div>
+    <div><label class="form-label" for="password">Password</label><input class="form-control" id="password" name="password" type="password" minlength="8" autocomplete="new-password" required><div class="form-text">At least 8 characters, with uppercase, lowercase, and a number.</div></div>
+    <div><label class="form-label" for="confirmPassword">Confirm password</label><input class="form-control" id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" required></div>
+    <button class="btn btn-primary mt-2" type="submit">Create account</button>
   </form><p class="form-footnote">Already registered? <a href="/login">Sign in</a></p></div></section>
 <%- include('../partials/footer') %>

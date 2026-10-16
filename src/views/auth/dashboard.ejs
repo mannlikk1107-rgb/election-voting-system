@@ -1,10 +1,10 @@
 <%- include('../partials/header', { title }) %>
 <% const activeElections = elections.filter((election) => ['NOMINATION', 'VOTING'].includes(election.status)); %>
 <% const publishedElections = elections.filter((election) => election.status === 'PUBLISHED'); %>
-<div class="section-heading"><div><p class="eyebrow">YOUR CAMPUS · 校園動態</p><h1>Your dashboard / 儀表板</h1></div></div>
+<div class="section-heading"><div><p class="eyebrow">YOUR CAMPUS</p><h1>Your dashboard</h1></div></div>
 <div class="dashboard-stack">
 	<section class="dashboard-section">
-		<div class="dashboard-section-heading"><div><p class="eyebrow">TAKE PART · 參與</p><h2>Active Elections</h2></div><a class="text-link" href="/elections">All elections →</a></div>
+		<div class="dashboard-section-heading"><div><p class="eyebrow">TAKE PART</p><h2>Active Elections</h2></div><a class="text-link" href="/elections">All elections →</a></div>
 		<% if (!activeElections.length) { %><div class="empty-state"><p>No active elections are currently available.</p></div><% } %>
 		<div class="dashboard-election-list"><% activeElections.forEach((election) => { const eligibility = election.eligibilities[0]?.status || 'NOT APPLIED'; const now = Date.now(); const votingOpen = election.status === 'VOTING' && now >= new Date(election.votingStart).getTime() && now <= new Date(election.votingEnd).getTime(); %>
 			<article class="dashboard-election">
@@ -15,7 +15,7 @@
 		<% }) %></div>
 	</section>
 	<section class="dashboard-section">
-		<div class="dashboard-section-heading"><div><p class="eyebrow">YOUR BALLOT · 您的選票</p><h2>My Status</h2></div></div>
+		<div class="dashboard-section-heading"><div><p class="eyebrow">YOUR BALLOT</p><h2>My Status</h2></div></div>
 		<% if (!elections.length) { %><p class="dashboard-muted">No voting status is available.</p><% } %>
 		<div class="dashboard-status-list"><% elections.forEach((election) => {
 			const eligible = election.eligibilities[0]?.status === 'APPROVED';
@@ -26,7 +26,7 @@
 		%><div class="dashboard-status-row"><a href="/elections/<%= election.id %>"><%= election.title %></a><strong class="status-badge <%= statusClass %>"><%= status %></strong></div><% }) %></div>
 	</section>
 	<section class="dashboard-section">
-		<div class="dashboard-section-heading"><div><p class="eyebrow">COUNTED AND PUBLISHED · 已公布</p><h2>Recent Results</h2></div><a class="text-link" href="/elections">All elections →</a></div>
+		<div class="dashboard-section-heading"><div><p class="eyebrow">COUNTED AND PUBLISHED</p><h2>Recent Results</h2></div><a class="text-link" href="/elections">All elections →</a></div>
 		<% if (!publishedElections.length) { %><p class="dashboard-muted">No published results are currently available.</p><% } %>
 		<div class="dashboard-result-list">
 			<% publishedElections.forEach((election) => { %><a class="dashboard-result-link" href="/results/<%= election.id %>"><span><%= election.title %></span><span class="status-label">View Results →</span></a><% }) %>

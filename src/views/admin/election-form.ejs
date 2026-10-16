@@ -1,5 +1,5 @@
 <%- include('../partials/header', { title }) %>
-<div class="narrow-page"><p class="eyebrow">ELECTION SETUP · 選舉設定</p><h1><%= election.id ? 'Edit election' : 'Create election' %></h1><form action="<%= election.id ? `/admin/elections/${election.id}?_method=PUT` : '/admin/elections' %>" method="post" class="vstack gap-3"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+<div class="narrow-page"><p class="eyebrow">ELECTION SETUP</p><h1><%= election.id ? 'Edit election' : 'Create election' %></h1><form action="<%= election.id ? `/admin/elections/${election.id}?_method=PUT` : '/admin/elections' %>" method="post" class="vstack gap-3"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
   <div><label class="form-label" for="title">Election title</label><input class="form-control" id="title" name="title" maxlength="160" value="<%= election.title || '' %>" required></div>
   <div><label class="form-label" for="description">Description</label><textarea class="form-control" id="description" name="description" rows="3" required><%= election.description || '' %></textarea></div>
   <div><label class="form-label" for="rules">Rules (optional)</label><textarea class="form-control" id="rules" name="rules" rows="3"><%= election.rules || '' %></textarea></div>

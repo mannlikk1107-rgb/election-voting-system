@@ -1,32 +1,32 @@
 <%- include('partials/header', { title }) %>
 <section class="home-portal">
   <div class="home-portal-hero">
-    <p class="portal-kicker">CAMPUS BALLOT · 校園選票</p>
+    <p class="portal-kicker">CAMPUS BALLOT</p>
     <h1 class="portal-title">Your voice,<br><span>Your Campus</span></h1>
     <p class="portal-subtitle">Secure and transparent campus elections.</p>
     <div class="portal-actions">
-      <a class="btn btn-warm btn-lg" href="/elections">Explore Elections / 查看選舉</a>
-      <% if (!currentUser) { %><a class="btn btn-outline-light btn-lg" href="/register">Create Account / 註冊</a><% } %>
-      <% if (currentUser) { %><a class="btn btn-outline-light btn-lg" href="/dashboard">Open Dashboard / 儀表板</a><% } %>
+      <a class="btn btn-warm btn-lg" href="/elections">Explore Elections</a>
+      <% if (!currentUser) { %><a class="btn btn-outline-light btn-lg" href="/register">Create Account</a><% } %>
+      <% if (currentUser) { %><a class="btn btn-outline-light btn-lg" href="/dashboard">Open Dashboard</a><% } %>
     </div>
     <p class="portal-note">A clear process for every candidate, every voter, every voice.</p>
   </div>
   <aside class="home-login-card" aria-labelledby="homeLoginHeading">
     <% if (currentUser) { %>
-      <p class="eyebrow">WELCOME BACK · 歡迎回來</p>
+      <p class="eyebrow">WELCOME BACK</p>
       <h2 id="homeLoginHeading">You're signed in.</h2>
       <p class="login-card-copy">Continue to your election dashboard to see voting status, candidate updates, and published results.</p>
-      <a class="btn btn-primary w-100" href="/dashboard">Open Dashboard / 儀表板</a>
+      <a class="btn btn-primary w-100" href="/dashboard">Open Dashboard</a>
     <% } else { %>
-      <p class="eyebrow">CAMPUS BALLOT · 校園選票</p>
+      <p class="eyebrow">CAMPUS BALLOT</p>
       <h2 id="homeLoginHeading">Authenticate</h2>
       <form action="/login" method="post" class="home-login-form">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <div><label class="form-label" for="homeAccount">Account / 帳戶</label><input class="form-control" id="homeAccount" name="identifier" type="text" placeholder="Email or username" autocomplete="username" required></div>
-        <div><label class="form-label" for="homePassword">Password / 密碼</label><input class="form-control" id="homePassword" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required></div>
-        <button class="btn login-authenticate w-100" type="submit">Authenticate / 登入</button>
+        <div><label class="form-label" for="homeAccount">Account</label><input class="form-control" id="homeAccount" name="identifier" type="text" placeholder="Email or username" autocomplete="username" required></div>
+        <div><label class="form-label" for="homePassword">Password</label><input class="form-control" id="homePassword" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required></div>
+        <button class="btn login-authenticate w-100" type="submit">Authenticate</button>
       </form>
-      <p class="home-register-link">Need an account? <a href="/register">Create one / 註冊</a></p>
+      <p class="home-register-link">Need an account? <a href="/register">Create one</a></p>
     <% } %>
   </aside>
 </section>

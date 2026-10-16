@@ -17,7 +17,7 @@ describe('authentication pages', () => {
   test('serves the homepage without requiring PostgreSQL', async () => {
     const response = await request(app).get('/');
     expect(response.status).toBe(200);
-    expect(response.text).toContain('Home / 首頁');
+    expect(response.text).toContain('Home');
     expect(response.text).toContain('Your voice,');
   });
 

@@ -1,8 +1,8 @@
 <%- include('../partials/header', { title }) %>
-<section class="form-layout"><div class="form-aside"><p class="eyebrow">WELCOME BACK · 歡迎回來</p><h1>Sign in to<br>take part.</h1><p>Use your university election account to continue.</p></div>
-  <div class="form-panel"><h2>Sign in / 登入</h2><form action="/login" method="post" class="vstack gap-3"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
-    <div><label class="form-label" for="identifier">Email or username / 電郵或用戶名稱</label><input class="form-control" id="identifier" name="identifier" autocomplete="username" required></div>
-    <div><label class="form-label" for="password">Password / 密碼</label><input class="form-control" id="password" name="password" type="password" autocomplete="current-password" required></div>
-    <button class="btn btn-primary mt-2" type="submit">Sign in / 登入</button>
+<section class="form-layout"><div class="form-aside"><p class="eyebrow">WELCOME BACK</p><h1>Sign in to<br>take part.</h1><p>Use your university election account to continue.</p></div>
+  <div class="form-panel"><h2>Sign in</h2><form action="/login" method="post" class="vstack gap-3"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <div><label class="form-label" for="identifier">Email or username</label><input class="form-control" id="identifier" name="identifier" autocomplete="username" required></div>
+    <div><label class="form-label" for="password">Password</label><input class="form-control" id="password" name="password" type="password" autocomplete="current-password" required></div>
+    <button class="btn btn-primary mt-2" type="submit">Sign in</button>
   </form><p class="form-footnote">New to Campus Ballot? <a href="/register">Create an account</a></p></div></section>
 <%- include('../partials/footer') %>
