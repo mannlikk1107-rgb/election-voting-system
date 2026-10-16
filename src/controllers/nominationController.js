@@ -8,6 +8,14 @@ async function submit(req, res, next) {
       req.session.flashMessage = { type: 'danger', text: 'Nominations are not open for this election.' };
       return res.redirect(`/elections/${req.params.electionId}`);
     }
+    const existing = await prisma.nomination.findUnique({
+      where: { electionId_userId: { electionId: election.id, userId: req.session.user.id } },
+      select: { status: true }
+    });
+    if (existing?.status === 'APPROVED') {
+      req.session.flashMessage = { type: 'warning', text: 'Your nomination is already approved and cannot be resubmitted.' };
+      return res.redirect(`/elections/${election.id}`);
+    }
     await prisma.nomination.upsert({
       where: { electionId_userId: { electionId: election.id, userId: req.session.user.id } },
       create: {
