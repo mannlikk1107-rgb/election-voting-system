@@ -106,8 +106,19 @@ async function changeStatus(req, res, next) {
 
 async function applyEligibility(req, res, next) {
   try {
+    if (req.session.user.role !== 'VOTER') {
+      return res.status(403).render('errors/403', { title: 'Voter access required' });
+    }
     const election = await prisma.election.findUnique({ where: { id: req.params.electionId } });
     if (!election || election.status === 'ARCHIVED') throw Object.assign(new Error('This election is unavailable.'), { status: 404 });
+    const existing = await prisma.voterEligibility.findUnique({
+      where: { electionId_userId: { electionId: election.id, userId: req.session.user.id } },
+      select: { status: true }
+    });
+    if (existing?.status === 'APPROVED') {
+      req.session.flashMessage = { type: 'warning', text: 'You are already approved to vote in this election.' };
+      return res.redirect(`/elections/${election.id}`);
+    }
     await prisma.voterEligibility.upsert({
       where: { electionId_userId: { electionId: election.id, userId: req.session.user.id } },
       create: { electionId: election.id, userId: req.session.user.id },

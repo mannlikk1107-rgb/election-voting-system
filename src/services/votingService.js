@@ -8,7 +8,8 @@ async function submitVote({ electionId, voterId, nominationId }) {
       throw Object.assign(new Error('Voting is not open for this election.'), { status: 400 });
     }
 
-    const [eligibility, nomination] = await Promise.all([
+    const [voter, eligibility, nomination] = await Promise.all([
+      transaction.user.findUnique({ where: { id: voterId }, select: { role: true } }),
       transaction.voterEligibility.findUnique({
         where: { electionId_userId: { electionId, userId: voterId } }
       }),
@@ -17,6 +18,9 @@ async function submitVote({ electionId, voterId, nominationId }) {
         select: { id: true }
       })
     ]);
+    if (!voter || voter.role !== 'VOTER') {
+      throw Object.assign(new Error('Only approved voters may cast a ballot in this election.'), { status: 403 });
+    }
     if (!eligibility || eligibility.status !== 'APPROVED') {
       throw Object.assign(new Error('You are not approved to vote in this election.'), { status: 403 });
     }

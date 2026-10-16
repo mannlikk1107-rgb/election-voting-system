@@ -10,7 +10,7 @@
 			<article class="dashboard-election">
 				<div class="dashboard-election-heading"><div><span class="status-label"><%= election.status %></span><h3><a href="/elections/<%= election.id %>"><%= election.title %></a></h3></div><small class="dashboard-voter-note"><%= eligibility %> · VOTER</small></div>
 				<p><%= election.description %></p>
-				<div class="dashboard-actions"><a class="btn btn-sm btn-outline-primary" href="/elections/<%= election.id %>">View Candidates</a><% if (votingOpen && eligibility === 'APPROVED' && election.votes.length === 0) { %><a class="btn btn-sm btn-primary" href="/elections/<%= election.id %>/vote">Vote Now</a><% } else if (election.status === 'NOMINATION') { %><a class="btn btn-sm btn-primary" href="/elections/<%= election.id %>">Nominate</a><% } %></div>
+				<div class="dashboard-actions"><a class="btn btn-sm btn-outline-primary" href="/elections/<%= election.id %>">View Candidates</a><% if (currentUser && currentUser.role === 'VOTER' && votingOpen && eligibility === 'APPROVED' && election.votes.length === 0) { %><a class="btn btn-sm btn-primary" href="/elections/<%= election.id %>/vote">Vote Now</a><% } else if (election.status === 'NOMINATION') { %><a class="btn btn-sm btn-primary" href="/elections/<%= election.id %>">Nominate</a><% } %></div>
 			</article>
 		<% }) %></div>
 	</section>

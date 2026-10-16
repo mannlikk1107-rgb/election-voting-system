@@ -1,6 +1,7 @@
 const prisma = require('../config/database');
 const { canTransitionElection } = require('../utils/electionStatus');
 const { recordAudit } = require('../utils/auditLogger');
+const { reconcileCandidateRoles } = require('../utils/candidateRole');
 
 async function transitionElection(electionId, status, actorUserId) {
   const election = await prisma.election.findUnique({ where: { id: electionId } });
@@ -15,6 +16,15 @@ async function transitionElection(electionId, status, actorUserId) {
       ...(status === 'PUBLISHED' ? { resultsPublishedAt: new Date() } : {})
     }
   });
+  if (status === 'ARCHIVED') {
+    // Archiving closes candidacy for this election: candidates whose only
+    // approved nomination was here revert to VOTER.
+    const candidates = await prisma.nomination.findMany({
+      where: { electionId, status: 'APPROVED' },
+      select: { userId: true }
+    });
+    await reconcileCandidateRoles(candidates.map((candidate) => candidate.userId));
+  }
   await recordAudit({ actorUserId, action: `ELECTION_${status}`, entityType: 'Election', entityId: electionId });
   return updated;
 }

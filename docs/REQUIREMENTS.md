@@ -6,8 +6,8 @@ The prototype provides account registration and sign-in, administrator-managed e
 
 ## Roles
 
-- `VOTER`: requests election-specific approval and votes only after approval.
-- `CANDIDATE`: manages approved nomination records through the candidate dashboard. New accounts start as voters; an approved nomination grants this role.
+- `VOTER`: requests election-specific approval and votes only after approval. Only accounts holding the `VOTER` role may request voter approval or cast a ballot.
+- `CANDIDATE`: manages approved nomination records through the candidate dashboard. New accounts start as voters; an approved nomination grants this role. Losing the last active nomination, whether the nomination is rejected or its election is archived, restores the `VOTER` role. An active nomination is an `APPROVED` nomination whose election is not yet `ARCHIVED`.
 - `ADMINISTRATOR`: creates and manages elections, reviews eligibility and nominations, previews results, publishes results, and inspects audit events.
 
 ## Election lifecycle

@@ -10,6 +10,12 @@ function requireAuthentication(req, res, next) {
 }
 
 function requireApprovedVoter(req, res, next) {
+  // Voting is a VOTER-only capability. Roles are mutually exclusive, so
+  // CANDIDATE and ADMINISTRATOR accounts cannot reach the ballot.
+  if (!req.session.user || req.session.user.role !== 'VOTER') {
+    return res.status(403).render('errors/403', { title: 'Voter access required' });
+  }
+
   const electionId = req.params.electionId || req.params.id;
   if (!electionId) {
     return res.status(400).render('errors/400', { title: 'Election required' });

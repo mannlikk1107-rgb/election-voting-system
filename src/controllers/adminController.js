@@ -1,5 +1,6 @@
 const prisma = require('../config/database');
 const { recordAudit } = require('../utils/auditLogger');
+const { reconcileCandidateRoles } = require('../utils/candidateRole');
 
 async function dashboard(req, res, next) {
   try {
@@ -69,7 +70,13 @@ async function reviewNomination(req, res, next) {
       data: { status, reviewedById: req.session.user.id, reviewedAt: new Date(), rejectionReason: status === 'REJECTED' ? req.body.rejectionReason : null },
       select: { id: true, userId: true, electionId: true }
     });
-    if (status === 'APPROVED') await prisma.user.update({ where: { id: nomination.userId }, data: { role: 'CANDIDATE' } });
+    if (status === 'APPROVED') {
+      await prisma.user.updateMany({ where: { id: nomination.userId, role: 'VOTER' }, data: { role: 'CANDIDATE' } });
+    } else {
+      // A rejected nomination revokes candidacy: restore VOTER unless the user
+      // still holds another active approved nomination.
+      await reconcileCandidateRoles([nomination.userId]);
+    }
     await recordAudit({ actorUserId: req.session.user.id, action: `NOMINATION_${status}`, entityType: 'Nomination', entityId: nomination.id });
     req.session.flashMessage = { type: 'success', text: `Nomination ${status.toLowerCase()}.` };
     return res.redirect('/admin/nominations');

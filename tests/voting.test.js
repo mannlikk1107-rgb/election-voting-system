@@ -10,6 +10,7 @@ function createTransaction(overrides = {}) {
       id: 'election-1', status: 'VOTING',
       votingStart: new Date(now.getTime() - 60_000), votingEnd: new Date(now.getTime() + 60_000)
     }) },
+    user: { findUnique: jest.fn().mockResolvedValue({ role: 'VOTER' }) },
     voterEligibility: { findUnique: jest.fn().mockResolvedValue({ status: 'APPROVED' }) },
     nomination: { findFirst: jest.fn().mockResolvedValue({ id: 'nom-1' }) },
     vote: { create: jest.fn().mockResolvedValue({ id: 'vote-1' }) },
@@ -68,5 +69,25 @@ describe('voting window', () => {
     prisma.$transaction.mockImplementation((callback) => callback(transaction));
     await expect(submitVote({ electionId: 'election-1', voterId: 'voter-1', nominationId: 'nom-1' }))
       .rejects.toMatchObject({ status: 409, message: expect.stringMatching(/already been recorded/) });
+  });
+
+  test('blocks a candidate from casting a ballot even when otherwise eligible', async () => {
+    const transaction = createTransaction({
+      user: { findUnique: jest.fn().mockResolvedValue({ role: 'CANDIDATE' }) }
+    });
+    prisma.$transaction.mockImplementation((callback) => callback(transaction));
+    await expect(submitVote({ electionId: 'election-1', voterId: 'candidate-1', nominationId: 'nom-1' }))
+      .rejects.toMatchObject({ status: 403 });
+    expect(transaction.vote.create).not.toHaveBeenCalled();
+  });
+
+  test('blocks an administrator from casting a ballot', async () => {
+    const transaction = createTransaction({
+      user: { findUnique: jest.fn().mockResolvedValue({ role: 'ADMINISTRATOR' }) }
+    });
+    prisma.$transaction.mockImplementation((callback) => callback(transaction));
+    await expect(submitVote({ electionId: 'election-1', voterId: 'admin-1', nominationId: 'nom-1' }))
+      .rejects.toMatchObject({ status: 403 });
+    expect(transaction.vote.create).not.toHaveBeenCalled();
   });
 });
