@@ -14,3 +14,5 @@ prisma/dev.db
 *.dump
 *.backup
 npm-debug.log*
+ElectionVotingSystem_full_code.txt
+*.Rhistory
