@@ -12,7 +12,7 @@ function getElectionStatus(election, now = new Date()) {
     return election.status;
   }
   if (election.status === 'VOTING' && now > new Date(election.votingEnd)) return 'CLOSED';
-  if (election.status === 'NOMINATION' && now > new Date(election.nominationEnd)) return 'NOMINATION';
+  if (election.status === 'NOMINATION' && now > new Date(election.nominationEnd)) return 'VOTING';
   return election.status;
 }
 
