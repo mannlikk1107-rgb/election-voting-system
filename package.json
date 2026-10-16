@@ -14,7 +14,9 @@
     "prisma:validate": "prisma validate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
+    "migrate:dry-run": "prisma migrate diff --from-empty --to-schema-datamodel ./prisma/schema.prisma --script",
     "prisma:seed": "node prisma/seed.js",
+    "db:session-store": "node scripts/create-session-table.js",
     "db:studio": "prisma studio"
   },
   "keywords": [

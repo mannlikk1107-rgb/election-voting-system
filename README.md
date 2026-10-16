@@ -50,7 +50,9 @@ The seed creates demonstration administrator, candidate, and voter accounts. Set
 | `npm run prisma:validate` | Validate the schema |
 | `npm run prisma:migrate` | Apply a local development migration |
 | `npm run prisma:deploy` | Apply committed migrations |
+| `npm run migrate:dry-run` | Preview the target schema as SQL (no database needed) |
 | `npm run prisma:seed` | Insert demonstration records |
+| `npm run db:session-store` | Provision the production session table |
 | `npm run db:studio` | Open Prisma Studio |
 
 ## Project map
